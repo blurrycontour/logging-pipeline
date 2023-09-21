@@ -4,8 +4,8 @@ services:
     container_name: fluent-bit
     image: fluent/fluent-bit
     volumes:
-      - ./fluentbit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./fluentbit/sample.log:/var/log/test.log
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./sample.log:/var/log/test.log
     networks:
       - opensearch-net
 
