@@ -4,8 +4,12 @@ services:
     container_name: fluent-bit
     image: fluent/fluent-bit
     volumes:
-      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./config-ep/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./config-default:/fluent-bit/configs/config-default
+      - ./config-ep:/fluent-bit/configs/config-ep
       - ./sample.log:/var/log/test.log
+      - ../logs:/var/logs/default
+      - /c/epshil/.logs/HILTest:/var/logs/HILTest
     networks:
       - opensearch-net
 

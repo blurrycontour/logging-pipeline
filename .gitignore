@@ -1,1 +1,3 @@
 opensearch/opensearch-data*
+logs/*.log
+*tail.db*
