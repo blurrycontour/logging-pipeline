@@ -9,7 +9,8 @@ services:
       - ./config-ep:/fluent-bit/configs/config-ep
       - ./sample.log:/var/log/test.log
       - ../logs:/var/logs/default
-      - /c/epshil/.logs/HILTest:/var/logs/HILTest
+      # - /c/epshil/.logs/HILTest:/var/logs/HILTest
+      - /c/epshil/framework/.logs/HILTest:/var/logs/HILTest
     networks:
       - opensearch-net
 
