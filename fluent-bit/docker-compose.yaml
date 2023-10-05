@@ -4,7 +4,8 @@ services:
     container_name: fluent-bit
     image: fluent/fluent-bit
     volumes:
-      - ./config-ep/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      # - ./config-ep/fluent-bit-v1.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./config-ep/fluent-bit-v2.conf:/fluent-bit/etc/fluent-bit.conf
       - ./config-default:/fluent-bit/configs/config-default
       - ./config-ep:/fluent-bit/configs/config-ep
       - ./sample.log:/var/log/test.log

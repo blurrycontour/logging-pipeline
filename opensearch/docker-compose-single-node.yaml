@@ -2,14 +2,16 @@ version: '3'
 services:
   opensearch-node-1:
     image: opensearchproject/opensearch:latest
-    container_name: opensearch-node-1
+    container_name: opensearch-node
     environment:
       - cluster.name=opensearch-cluster
-      - node.name=opensearch-node-1
-      - discovery.seed_hosts=opensearch-node-1,opensearch-node-2
-      - cluster.initial_cluster_manager_nodes=opensearch-node-1,opensearch-node-2
+      - node.name=opensearch-node
+      - discovery.type=single-node
+      - discovery.seed_hosts=opensearch-node
+      - cluster.initial_cluster_manager_nodes=opensearch-node
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
     ulimits:
       memlock:
         soft: -1
@@ -18,32 +20,10 @@ services:
         soft: 65536 # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
         hard: 65536
     volumes:
-      - ./opensearch-data-1:/usr/share/opensearch/data
+      - ./opensearch-data-0:/usr/share/opensearch/data
     ports:
       - 9200:9200
       - 9600:9600 # required for Performance Analyzer
-    networks:
-      - opensearch-net
-  
-  opensearch-node-2:
-    image: opensearchproject/opensearch:latest
-    container_name: opensearch-node-2
-    environment:
-      - cluster.name=opensearch-cluster
-      - node.name=opensearch-node-2
-      - discovery.seed_hosts=opensearch-node-1,opensearch-node-2
-      - cluster.initial_cluster_manager_nodes=opensearch-node-1,opensearch-node-2
-      - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    volumes:
-      - ./opensearch-data-2:/usr/share/opensearch/data
     networks:
       - opensearch-net
   
@@ -55,7 +35,7 @@ services:
     expose:
       - "5601"
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch-node-1:9200","https://opensearch-node-2:9200"]'
+      OPENSEARCH_HOSTS: '["https://opensearch-node:9200"]'
     volumes:
       - ./dashboards:/usr/share/opensearch-dashboards/data
     networks:
